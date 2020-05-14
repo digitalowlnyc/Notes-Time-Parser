@@ -1,0 +1,30 @@
+set output_file to "/tmp/notes.out"
+open for access output_file with write permission
+set append to false
+
+if not append then set eof of output_file to 0
+#write "hello world" to output_file
+
+
+tell application "Notes"
+    set i to 0
+    set countNotes to count of notes
+
+    repeat with current_note in notes
+        #set props to properties of current_note
+
+        set note_name to name of current_note
+        set note_body to body of current_note
+
+        set content to "name:" & note_name & "\n" & "body:" & note_body & "\n"
+        #log "PROP: " & note_name
+        #log "BODY: " & note_body
+        log i & "/" & countNotes & "\n"
+        write content to output_file
+        write "[END NOTE]" to output_file
+
+        set i to i + 1
+    end repeat
+end tell
+
+close access output_file
